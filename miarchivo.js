@@ -33,6 +33,35 @@ closeModal.addEventListener('click', (e) => {
 
 
 showPrice.addEventListener('click', (e) => {
+    e.preventDefault();
     let resultado = obtenerPrecio();
     price.innerHTML = `$ ${resultado}`;
 });
+
+
+/* const productosEnElCarrito = [];
+
+const productos = [
+    {id:1, titulo:'Zapatilla niky', precio: 900, hayStock: true},
+    {id:2, titulo:'Zapatilla Adidas', precio: 200, hayStock:false},
+    {id:3, titulo:'Zapatilla Jagguar', precio: 200, hayStock:false}
+];
+
+let acumulador = ``;
+for (let i = 0; i < productos.length; i++){
+    acumulador += `<div>
+    ${productos[i].titulo} - $${productos[i].precio}<br>
+        <button onclick="agregarAlCarrito(${productos[i].id})">Agregar</button>
+    </div>`;
+}
+document.write(acumulador);
+
+
+function agregarAlCarrito(idDeProducto){
+    const indiceEncontrado = productos.findIndex(producto => producto.id == idDeProducto);
+    productosEnElCarrito.push(productos[indiceEncontrado]);
+    console.log(productosEnElCarrito);
+}
+
+// nombreDelArray.reverse();
+ */
