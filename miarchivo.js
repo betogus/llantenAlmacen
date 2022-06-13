@@ -17,7 +17,12 @@ class Cuenta {
         this.telefono = telefono;
         this.productos = [];
     }
-    agregarAlCarrito(producto) {
+    agregarAlCarrito(nombreProducto, cantidadProducto, precioFinalProducto) {
+        let producto = {
+            nombre: nombreProducto,
+            cantidad: cantidadProducto,
+            precioFinal: precioFinalProducto
+        }
         this.productos.push(producto);
     }
 };
@@ -31,13 +36,13 @@ class Producto {
         this.hayStock = hayStock;
     }
     obtenerPrecio(cantidad) {
-        let precio100gr = precio100gr;
-        let precioKg = precioKg;
+        let precio100gr = this.precio100gr;
+        let precioKg = this.precioKg;
         let cantidadEnKg = 0;
         let cantidadEn100g = 0;
         cantidadEnKg = Math.floor(cantidad / 1000)
         cantidadEn100g = Math.floor(cantidad / 100) - cantidadEnKg * 10;
-        precio = cantidadEnKg * precioKg + cantidadEn100g * precio100gr;
+        let precio = cantidadEnKg * precioKg + cantidadEn100g * precio100gr;
         return precio;
     }
 };
@@ -116,7 +121,7 @@ const producto52 = new Producto(52, 'TUTUCA C/ EDULCORANTE', 55, 500, true);
 const producto53 = new Producto(53, 'ARITOS DE MIEL', 35, 325, true);
 const producto54 = new Producto(54, 'COPOS DE MAIZ', 30, 240, true);
 const producto55 = new Producto(55, 'COPOS AZUCARADOS', 35, 250, true);
-productos.push(producto1);
+productos.push(producto1)
 productos.push(producto2);
 productos.push(producto3);
 productos.push(producto4);
@@ -172,52 +177,79 @@ productos.push(producto53);
 productos.push(producto54);
 productos.push(producto55);
 
+// Agrego los productos al HTML
+let productosJs = document.querySelector('.productosJs');
+
+for (let i = 0; i < productos.length; i++) {
+    productosJs.innerHTML +=
+        `<tr><td>${productos[i].id}</td><td>${productos[i].nombre}</td><td>${productos[i].precio100gr}</td><td>${productos[i].precioKg}</td></tr><br>`
+
+}
+
 // Eventos
 
-const openModal = document.querySelectorAll('.item');
-const modal = document.querySelector('.modal');
-const closeModal = document.querySelector('.modal__close');
-const showPrice = document.querySelectorAll('.verPrecio');
-const price = document.querySelectorAll('.precio');
-const item = document.querySelector('.item').innerHTML; 
-
-// valores base
-let precio = 0;
-let salir = false;
+const openModal = document.querySelector('.agregarAlCarrito');
+const shopping = document.querySelector('.carrito');
 
 
-openModal.addEventListener('click', (e) => {
-        e.preventDefault();
-        const nombre = document.querySelector('.nombre').textContent;
-        const precio100gr = document.querySelector('.precio100gr').textContent;
-        const precioKg = document.querySelector('precioKg').textContent;
-        const producto = new Producto (1, nombre, precio100gr, precioKg, true);
-        prompt(producto) 
-        /* if (cuentaEstandar.id == null) {
-            cuentaEstandar.nombre = prompt("Usted no se encuentra registrado. Ingrese su nombre");
-            cuentaEstandar.id = getRandomInt(1000, 10000);
-            for (let i = 0; i < baseDeDatos.cuentas.length; i++) {
-                while (cuentaEstandar.id == baseDeDatos.cuentas[i].id) {
-                    cuentaEstandar.id = getRandomInt(1000, 10000);
-                }
-            }
-            cuentaEstandar.direccion = prompt("Ingrese su dirección");
-            cuentaEstandar.telefono = prompt("Ingrese su teléfono");
-            baseDeDatos.crearCuenta(cuentaEstandar);
+openModal.addEventListener("click", () => {
+    let booleano = true;
+    while (booleano) {
+        var idSeleccionado = parseInt(prompt("ingrese el id del producto que desea obtener: "));
+        if (isNaN(idSeleccionado) || idSeleccionado > 55 || idSeleccionado < 1) {
+            confirm(`El valor ingresado es incorrecto. Debe ser un número entero entre 1 y 55`)
+        } else {
+            booleano = false;
         }
+    }
+    if (cuentaEstandar.id == null) {
+        cuentaEstandar.nombre = prompt("Usted no se encuentra registrado. Ingrese su nombre");
+        cuentaEstandar.id = getRandomInt(1000, 10000);
+        for (let i = 0; i < baseDeDatos.cuentas.length; i++) {
+            while (cuentaEstandar.id == baseDeDatos.cuentas[i].id) {
+                cuentaEstandar.id = getRandomInt(1000, 10000);
+            }
+        }
+        cuentaEstandar.direccion = prompt("Ingrese su dirección");
+        cuentaEstandar.telefono = parseInt(prompt("Ingrese su teléfono"));
+        baseDeDatos.crearCuenta(cuentaEstandar);
 
-    })
-
-
+    }
 
     do {
         cantidad = parseInt(prompt("Ingrese la cantidad que desea comprar (en gramos)"));
         if (isNaN(cantidad)) {
             alert("El valor ingresado es incorrecto");
+            salir = false;
         } else if (cantidad % 1 == 0) {
             salir = true;
         }
     } while (salir == false);
-    let resultado = obtenerPrecio(cantidad);
-    confirm(`Usted está por comprar ${Math.floor(cantidad/100)*100}g de ${item} a un precio total de $${resultado}. ¿Desea confirmar la compra?`); */
+
+    let resultado = productos[idSeleccionado - 1].obtenerPrecio(cantidad);
+    let cantidadFinal = Math.floor(cantidad / 100) * 100;
+    let acepta = confirm(`Usted está por comprar ${cantidadFinal}g de ${productos[idSeleccionado - 1].nombre} a un precio total de $${resultado}. ¿Desea confirmar la compra?`);
+    if (acepta) {
+        cuentaEstandar.agregarAlCarrito(productos[idSeleccionado - 1].nombre, cantidadFinal, resultado);
+    }
+})
+
+shopping.addEventListener("click", () => {
+    let mostrarProductos = ``;
+    let precioTotal = 0;
+    for (let i = 0; i < cuentaEstandar.productos.length; i++) {
+        mostrarProductos += `producto: ${cuentaEstandar.productos[i].nombre}
+        cantidad: ${cuentaEstandar.productos[i].cantidad} gr
+        precio final: $${cuentaEstandar.productos[i].precioFinal}
+        
+        `
+        precioTotal += cuentaEstandar.productos[i].precioFinal;
+    }
+    confirm(
+        `usuario: ${cuentaEstandar.nombre}
+        dirección: ${cuentaEstandar.direccion}
+        telefono: ${cuentaEstandar.telefono}
+
+        ${mostrarProductos}
+        TOTAL: $${precioTotal}`);
 })

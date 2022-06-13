@@ -170,3 +170,11 @@ textarea {
     padding-bottom: 5px;
 }
 
+section {
+    padding-top: 70px;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
