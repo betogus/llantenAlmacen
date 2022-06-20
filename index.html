@@ -13,15 +13,21 @@
 
 <body>
     <header>
+        <div class="buscador-container">
+            <form id="formulario">
+                <i class="fa-solid fa-magnifying-glass"></i><input type="text" value="" id="productoABuscar" size="50" placeholder="ingrese el nombre del producto que desea buscar" />
+            </form>    
+        </div>
         <div class="carrito">
             <i class="fa-solid fa-cart-shopping"></i>
         </div>
+
     </header>
     <section>
         <input type="button" class="agregarAlCarrito" value="Agregar al carrito">
 
         <table class="tableizer-table">
-            <thead><tr class="tableizer-firstrow"><th>ID</th><th>PRODUCTOS</th><th>100 GR</th><th>1 KG</th></tr></thead><tbody>
+            <thead><tr class="tableizer-firstrow"><th>ID</th><th>PRODUCTOS</th><th>100GR</th><th>1KG</th></tr></thead><tbody>
              <thead class="productosJs"></thead>
     </section>
     <script src="miarchivo.js"></script>

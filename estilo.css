@@ -18,9 +18,15 @@ header {
     height: 50px;
     background-color: blanchedalmond;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
     z-index: 2;
 }
+
+.buscador-container {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
 
 .carrito {
     margin-top: 10px;

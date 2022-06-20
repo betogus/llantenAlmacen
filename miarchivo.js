@@ -56,12 +56,55 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
-// INSTANCIANDO LAS CLASES
+function registrarse() {
+    if (cuentaEstandar.id == null) {
+        cuentaEstandar.nombre = prompt("Usted no se encuentra registrado. Ingrese su nombre");
+        cuentaEstandar.id = getRandomInt(1000, 10000);
+        for (let i = 0; i < baseDeDatos.cuentas.length; i++) {
+            while (cuentaEstandar.id == baseDeDatos.cuentas[i].id) {
+                cuentaEstandar.id = getRandomInt(1000, 10000);
+            }
+        }
+        cuentaEstandar.direccion = prompt("Ingrese su dirección");
+        cuentaEstandar.telefono = parseInt(prompt("Ingrese su teléfono"));
+
+    }
+    return cuentaEstandar;
+}
+
+function seleccionarProducto() {
+    let booleano = true;
+    while (booleano) {
+        var idSeleccionado = parseInt(prompt("ingrese el id del producto que desea obtener: "));
+        if (!(productos.find(producto => producto.id == idSeleccionado))) {
+            confirm(`El valor ingresado es incorrecto. Debe ser un número entero entre 1 y 55`)
+        } else {
+            booleano = false;
+        }
+    }
+    return idSeleccionado;
+}
+
+
+function seleccionarCantidadProducto() {
+    do {
+        cantidad = parseInt(prompt("Ingrese la cantidad que desea comprar (en gramos)"));
+        if (isNaN(cantidad)) {
+            alert("El valor ingresado es incorrecto");
+            salir = false;
+        } else if (cantidad % 1 == 0) {
+            salir = true;
+        }
+    } while (salir == false);
+    return cantidad
+}
+
+// CREANDO LOS OBJETOS
 
 let cuentaEstandar = new Cuenta();
 let cuentaPrueba = new Cuenta(1234, "bot", "calle falsa 123", 123456789); // cuenta de ejemplo
 
-const baseDeDatos = new BaseDeDatos;
+const baseDeDatos = new BaseDeDatos();
 baseDeDatos.crearCuenta(cuentaPrueba); //instanciamos la cuenta de prueba
 
 const productos = []; //aqui se guardaran todos los productos
@@ -177,55 +220,54 @@ productos.push(producto53);
 productos.push(producto54);
 productos.push(producto55);
 
-// Agrego los productos al HTML
+// -------------- PASOS ------------
+
+// 1) AGREGAR LOS PRODUCTOS BUSCADOS AL HTML
+
 let productosJs = document.querySelector('.productosJs');
 
-for (let i = 0; i < productos.length; i++) {
-    productosJs.innerHTML +=
-        `<tr><td>${productos[i].id}</td><td>${productos[i].nombre}</td><td>${productos[i].precio100gr}</td><td>${productos[i].precioKg}</td></tr><br>`
+// muestro todos los productos antes de realizar una busqueda
+productosJs.innerHTML = productos.reduce((listaProductos, producto) =>
+    listaProductos +
+    `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>${producto.precio100gr}</td><td>${producto.precioKg}</td></tr><br>`, "");
 
-}
+// busco los productos que ingresa el usuario
+const productoABuscar = document.getElementById("productoABuscar");
+productoABuscar.addEventListener('keyup', (e) => {
 
-// Eventos
+    let inputEvent = e.path[0].value; //accedo al texto que escribe el usuario
+    let resultadoDeBusqueda = productos.filter((producto) => producto.nombre.includes(inputEvent.toUpperCase()));
+
+    // opcion 1
+
+    productosJs.innerHTML = resultadoDeBusqueda.reduce((listaProductos, producto) =>
+        listaProductos +
+        `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>${producto.precio100gr}</td><td>${producto.precioKg}</td></tr><br>`, "");
+
+    // opcion 2
+    /* for (let i = 0; i < resultadoDeBusqueda.length; i++) {
+        productosJs.innerHTML +=
+            `<tr><td>${resultadoDeBusqueda[i].id}</td><td>${resultadoDeBusqueda[i].nombre}</td><td>${resultadoDeBusqueda[i].precio100gr}</td><td>${resultadoDeBusqueda[i].precioKg}</td></tr><br>`
+    }*/
+
+    // opcion 3
+    /* resultadoDeBusqueda.forEach(producto => {
+        productosJs.innerHTML += `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>${producto.precio100gr}</td><td>${producto.precioKg}</td></tr><br>`
+    }); */
+
+
+})
+
+
+// 2) AGREGAR AL CARRITO 
 
 const openModal = document.querySelector('.agregarAlCarrito');
-const shopping = document.querySelector('.carrito');
-
 
 openModal.addEventListener("click", () => {
-    let booleano = true;
-    while (booleano) {
-        var idSeleccionado = parseInt(prompt("ingrese el id del producto que desea obtener: "));
-        if (isNaN(idSeleccionado) || idSeleccionado > 55 || idSeleccionado < 1) {
-            confirm(`El valor ingresado es incorrecto. Debe ser un número entero entre 1 y 55`)
-        } else {
-            booleano = false;
-        }
-    }
-    if (cuentaEstandar.id == null) {
-        cuentaEstandar.nombre = prompt("Usted no se encuentra registrado. Ingrese su nombre");
-        cuentaEstandar.id = getRandomInt(1000, 10000);
-        for (let i = 0; i < baseDeDatos.cuentas.length; i++) {
-            while (cuentaEstandar.id == baseDeDatos.cuentas[i].id) {
-                cuentaEstandar.id = getRandomInt(1000, 10000);
-            }
-        }
-        cuentaEstandar.direccion = prompt("Ingrese su dirección");
-        cuentaEstandar.telefono = parseInt(prompt("Ingrese su teléfono"));
-        baseDeDatos.crearCuenta(cuentaEstandar);
-
-    }
-
-    do {
-        cantidad = parseInt(prompt("Ingrese la cantidad que desea comprar (en gramos)"));
-        if (isNaN(cantidad)) {
-            alert("El valor ingresado es incorrecto");
-            salir = false;
-        } else if (cantidad % 1 == 0) {
-            salir = true;
-        }
-    } while (salir == false);
-
+    const cuentaEstandar = registrarse();
+    baseDeDatos.crearCuenta(cuentaEstandar);
+    idSeleccionado = seleccionarProducto();
+    let cantidad = seleccionarCantidadProducto();
     let resultado = productos[idSeleccionado - 1].obtenerPrecio(cantidad);
     let cantidadFinal = Math.floor(cantidad / 100) * 100;
     let acepta = confirm(`Usted está por comprar ${cantidadFinal}g de ${productos[idSeleccionado - 1].nombre} a un precio total de $${resultado}. ¿Desea confirmar la compra?`);
@@ -234,17 +276,23 @@ openModal.addEventListener("click", () => {
     }
 })
 
+
+// 3) MOSTRAR CARRITO 
+
+
+const shopping = document.querySelector('.carrito');
+
 shopping.addEventListener("click", () => {
     let mostrarProductos = ``;
     let precioTotal = 0;
-    for (let i = 0; i < cuentaEstandar.productos.length; i++) {
-        mostrarProductos += `producto: ${cuentaEstandar.productos[i].nombre}
-        cantidad: ${cuentaEstandar.productos[i].cantidad} gr
-        precio final: $${cuentaEstandar.productos[i].precioFinal}
+    cuentaEstandar.productos.forEach(producto => {
+        mostrarProductos += `producto: ${producto.nombre}
+        cantidad: ${producto.cantidad} gr
+        precio final: $${producto.precioFinal}
         
         `
-        precioTotal += cuentaEstandar.productos[i].precioFinal;
-    }
+        precioTotal += producto.precioFinal;
+    });
     confirm(
         `usuario: ${cuentaEstandar.nombre}
         dirección: ${cuentaEstandar.direccion}
