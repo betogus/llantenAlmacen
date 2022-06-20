@@ -280,9 +280,23 @@ openModal.addEventListener("click", () => {
 // 3) MOSTRAR CARRITO 
 
 
+
 const shopping = document.querySelector('.carrito');
 
 shopping.addEventListener("click", () => {
+
+    // ordeno los productos alfabeticamente
+    cuentaEstandar.productos.sort((a,b) => {
+        if (a.nombre > b.nombre) {
+            return 1;
+        } 
+        if (a.nombre < b.nombre) {
+            return -1;
+        }
+        return 0;
+    });
+
+    // recorro los productos
     let mostrarProductos = ``;
     let precioTotal = 0;
     cuentaEstandar.productos.forEach(producto => {
