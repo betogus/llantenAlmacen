@@ -85,8 +85,8 @@ function seleccionarProducto() {
     return idSeleccionado;
 }
 
-
 function seleccionarCantidadProducto() {
+
     do {
         cantidad = parseInt(prompt("Ingrese la cantidad que desea comprar (en gramos)"));
         if (isNaN(cantidad)) {
@@ -97,6 +97,23 @@ function seleccionarCantidadProducto() {
         }
     } while (salir == false);
     return cantidad
+}
+
+function productosAMostrar(listadoDeProductos, productos) {
+    listadoDeProductos.innerHTML = productos.reduce((listaProductos, producto) =>
+        listaProductos +
+        `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>${producto.precio100gr}</td><td>${producto.precioKg}</td></tr><br>`, "");
+
+    // opcion 2
+    /* for (let i = 0; i < productos.length; i++) {
+        listadoDeProductos.innerHTML +=
+            `<tr><td>${productos[i].id}</td><td>${productos[i].nombre}</td><td>${productos[i].precio100gr}</td><td>${productos[i].precioKg}</td></tr><br>`
+    }*/
+
+    // opcion 3
+    /* productos.forEach(producto => {
+        listadoDeProductos.innerHTML += `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>${producto.precio100gr}</td><td>${producto.precioKg}</td></tr><br>`
+    }); */
 }
 
 // CREANDO LOS OBJETOS
@@ -224,37 +241,21 @@ productos.push(producto55);
 
 // 1) AGREGAR LOS PRODUCTOS BUSCADOS AL HTML
 
+
 let productosJs = document.querySelector('.productosJs');
 
 // muestro todos los productos antes de realizar una busqueda
-productosJs.innerHTML = productos.reduce((listaProductos, producto) =>
-    listaProductos +
-    `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>${producto.precio100gr}</td><td>${producto.precioKg}</td></tr><br>`, "");
+
+productosAMostrar(productosJs, productos);
 
 // busco los productos que ingresa el usuario
+
 const productoABuscar = document.getElementById("productoABuscar");
 productoABuscar.addEventListener('keyup', (e) => {
-
     let inputEvent = e.path[0].value; //accedo al texto que escribe el usuario
     let resultadoDeBusqueda = productos.filter((producto) => producto.nombre.includes(inputEvent.toUpperCase()));
 
-    // opcion 1
-
-    productosJs.innerHTML = resultadoDeBusqueda.reduce((listaProductos, producto) =>
-        listaProductos +
-        `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>${producto.precio100gr}</td><td>${producto.precioKg}</td></tr><br>`, "");
-
-    // opcion 2
-    /* for (let i = 0; i < resultadoDeBusqueda.length; i++) {
-        productosJs.innerHTML +=
-            `<tr><td>${resultadoDeBusqueda[i].id}</td><td>${resultadoDeBusqueda[i].nombre}</td><td>${resultadoDeBusqueda[i].precio100gr}</td><td>${resultadoDeBusqueda[i].precioKg}</td></tr><br>`
-    }*/
-
-    // opcion 3
-    /* resultadoDeBusqueda.forEach(producto => {
-        productosJs.innerHTML += `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>${producto.precio100gr}</td><td>${producto.precioKg}</td></tr><br>`
-    }); */
-
+    productosAMostrar(productosJs, resultadoDeBusqueda);
 
 })
 
@@ -279,17 +280,15 @@ openModal.addEventListener("click", () => {
 
 // 3) MOSTRAR CARRITO 
 
-
-
 const shopping = document.querySelector('.carrito');
 
 shopping.addEventListener("click", () => {
 
     // ordeno los productos alfabeticamente
-    cuentaEstandar.productos.sort((a,b) => {
+    cuentaEstandar.productos.sort((a, b) => {
         if (a.nombre > b.nombre) {
             return 1;
-        } 
+        }
         if (a.nombre < b.nombre) {
             return -1;
         }
@@ -315,3 +314,10 @@ shopping.addEventListener("click", () => {
         ${mostrarProductos}
         TOTAL: $${precioTotal}`);
 })
+
+
+// Hacer un popUp para el carrito 
+// Dar la opcion de eliminar un producto del carrito
+// Mostrar la cantidad de items agregados al carrito en el header
+// En el total del carrito, podria sumarle el precio por delivery (ej. partir con un costo de $150)
+// Crear botones que me filtre por categoria
