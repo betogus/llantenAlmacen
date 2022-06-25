@@ -9,28 +9,93 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script">
     <link href="estilo.css" rel="stylesheet">
     <title>Llanten Almacen</title>
-    <script defer src="miarchivo.js"></script> <!-- el defer me permite ejecutar el js al ultimo, como si estuviera al fondo del body -->
+    <script defer src="miarchivo.js"></script>
+    <!-- el defer me permite ejecutar el js al ultimo, como si estuviera al fondo del body -->
 
 </head>
 
 <body>
     <header>
-        <div class="buscador-container">
-            <form id="formulario">
-                <i class="fa-solid fa-magnifying-glass"></i><input type="text" value="" id="productoABuscar" size="50" placeholder="ingrese el nombre del producto que desea buscar" />
-            </form>    
+        <div class="header-left">
+            <div>
+                <h2>Inicio</h2>
+            </div>
+            <div>
+                <h2>Almacen</h2>
+            </div>
+            <div>
+                <h2>Contacto</h2>
+            </div>
         </div>
         <div class="carrito">
             <i class="fa-solid fa-cart-shopping"></i>
         </div>
 
     </header>
-    <section>
-        <input type="button" class="agregarAlCarrito" value="Agregar al carrito">
+    <main class="almacen__main">
 
-        <table class="tableizer-table">
-            <thead><tr class="tableizer-firstrow"><th>ID</th><th>PRODUCTOS</th><th>100GR</th><th>1KG</th></tr></thead><tbody>
-             <thead class="productosJs"></thead>
+        <section>
+            <div class="categorias">
+                <div class="buscador-container">
+                    <form id="formulario">
+                        <i class="fa-solid fa-magnifying-glass"></i> <input type="text" value="" id="productoABuscar"
+                            size="40" placeholder="ingrese el nombre del producto que desea buscar" />
+                    </form>
+                </div>
+                <h2>Categorías<br><br></h2>
+                <ul class="categorias__lista">
+                    <li class="categorias__item" id="legumbresYHarinas">Legumbres y Harinas</li>
+                    <li class="categorias__item" id="cereales">Cereales y +</li>
+                    <li class="categorias__item" id="frutosSecos">Frutos secos</li>
+                    <li class="categorias__item" id="sueltos">Sueltos</li>
+                    <li class="categorias__item" id="semillas">Semillas</li>
+                    <li class="categorias__item" id="heladera">Heladera</li>
+                    <li class="categorias__item" id="yuyitosEInfusiones">Yuyitos e Infusiones</li>
+                    <li class="categorias__item" id="mielesYEndulzantes">Mieles y Endulzantes</li>
+                    <li class="categorias__item" id="condimentosYSales">Condimentos y Sales</li>
+                    <li class="categorias__item" id="panesYGalletas">Panes y Galletas</li>
+                    <li class="categorias__item" id="sinTacc">Sin TACC</li>
+                    <li class="categorias__item" id="almacenII">Almacén II</li>
+                    <li class="categorias__item" id="suplementosYProbioticos">Suplementos y Probióticos</li>
+                    <li class="categorias__item" id="cosmeticaNatural">Cosmética Natural</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <div class="item-container">
+            </div>
+
+        </section>
+    </main>
+
+
+    <section class="modal">
+        <div class="modal__container">
+            <form>
+                <div class="datosProducto">
+
+                </div>
+                <div class="modal__buttons">
+                    <input type="submit" value="Añadir al carrito" class="agregarAlCarrito">
+                    <div class="modal__close__button"><a href="#" class="modal__close">Cancelar</a></div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <section class="modalCarrito">
+        <div class="modal__container">
+            <form>
+                <div class="datosCuenta">
+
+                </div>
+                <div class="modal__buttons">
+                    <input type="submit" value="Confirmar compra" class="confirmarCompra">
+                    <div class="modal__close__button"><a href="#" class="modalCarrito__close">Cerrar</a></div>
+                </div>
+            </form>
+        </div>
     </section>
 </body>
 

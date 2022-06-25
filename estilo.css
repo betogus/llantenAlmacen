@@ -22,9 +22,23 @@ header {
     z-index: 2;
 }
 
+.header-left {
+    display: flex;
+    width: 50%;
+    justify-content: space-around;
+    padding-top: 10px;
+}
+
 .buscador-container {
     margin-top: 10px;
     margin-left: 30px;
+    text-align: justify;
+    margin-bottom: 10px;
+}
+
+#productoABuscar {
+    margin-left: 10px;
+    padding: 10px;
 }
 
 
@@ -105,7 +119,7 @@ footer {
     color: rgb(102, 117, 98);
 }
 
-.modal {
+.modal, .modalCarrito {
     position: fixed;
     top: 0;
     right: 0;
@@ -166,6 +180,10 @@ a:any-link {
     border-color: none ;
 }
 
+.cantidad {
+    width: 50px;
+}
+
 textarea {
     width: 100%;
     resize: none;
@@ -184,3 +202,55 @@ table {
     margin-left: auto;
     margin-right: auto;
 }
+
+.item-rec, .categorias{
+   
+    width: 400px;
+    height: 30px;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 16px 1px #000000;
+    background: #fff;
+    padding: 10px 0 0 10px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.categorias {
+    height: auto;
+    width: 400px;
+    padding-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.categorias__item {
+    width: 380px;
+    border-radius: 0.3rem;
+    background: #fff;
+    height: auto;
+    border: #000 1px solid;
+    padding-left: 10px;
+}
+
+.categorias h2 {
+    text-align: center;
+}
+
+.categorias__lista {
+    list-style: none;
+    line-height: 30px;
+}
+
+
+
+.almacen__main {
+    display: flex;
+    justify-content: first baseline;
+
+}
+
+.datosCuenta-productos, .datosCuenta-usuario {
+    text-align: left;
+}
+
+/* INICIO */
