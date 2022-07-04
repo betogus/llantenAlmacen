@@ -249,8 +249,33 @@ table {
 
 }
 
-.datosCuenta-productos, .datosCuenta-usuario {
-    text-align: left;
+.mostrarProductos-titulo {
+
+    background-color: blanchedalmond;
 }
 
-/* INICIO */
+
+.mostrarProductos-item, .mostrarProductos-titulo {
+    display: grid;
+    grid-template-columns: 40% 25% 25% 10%;
+    grid-template-rows: auto;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: auto;
+
+}
+
+.mostrarProductos-item {
+    border: 1px solid #000;
+
+    border-radius: 0.5rem;
+    margin-top: 5px;
+}
+
+
+
+.alinearDerecha {
+    text-align: right;
+}
+

@@ -17,15 +17,44 @@ class Cuenta {
         this.telefono = telefono;
         this.productos = [];
     }
-    agregarAlCarrito(nombreProducto, cantidadProducto, precioFinalProducto) {
+    cargarProductos(listaDeProductos) {
+
+        this.productos = listaDeProductos;
+
+    }
+
+    agregarAlCarrito(idProducto, nombreProducto, cantidadProducto, precioFinalProducto) {
+
         let producto = {
+            id: idProducto,
             nombre: nombreProducto,
             cantidad: cantidadProducto,
             precioFinal: precioFinalProducto
         }
+        if (this.productos == null) {
+            this.productos = [];
+        }
         this.productos.push(producto);
+        let productoEnLS = this.productos;
+        localStorage.setItem("producto", JSON.stringify(productoEnLS));
+    }
+
+
+    eliminarProductoCarrito(id) {
+        let buscarProducto = productos.find(producto => producto.id == id);
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].id == buscarProducto.id) {
+                this.productos.splice(i, 1);
+            }
+        }
+        let productoEnLS = this.productos;
+        localStorage.setItem("producto", JSON.stringify(productoEnLS)); 
     }
 };
+
+
+
+
 
 class Producto {
     constructor(id, nombre, precio100gr, precioKg, hayStock, categoria) {
@@ -39,6 +68,7 @@ class Producto {
 
 };
 
+// Funciones 
 
 
 function obtenerPrecio(producto) {
@@ -53,7 +83,9 @@ function obtenerPrecio(producto) {
     return precio;
 }
 
-// Funciones 
+
+
+
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -89,30 +121,44 @@ function productoABuscarPorCategoria(categoria, listadoDeProductos) {
 }
 
 function abrirModalCarrito(cuentaEstandar) {
-    
-
     let mostrarProductos = ``;
     let precioTotal = 0;
     cuentaEstandar.productos.forEach(producto => {
-        mostrarProductos += `<div class="datosCuenta-productos"><p>producto: ${producto.nombre}</p>
-    <p>cantidad: ${producto.cantidad}00 gr</p>
-    <p>precio final: $${producto.precioFinal}</p><br></div>`
+        mostrarProductos += `
+            <div class="mostrarProductos-item">
+                <div>${producto.nombre}</div>
+                <div>${producto.cantidad}00 g</div>
+                <div>$${producto.precioFinal}</div>
+                <div><i class="fa-solid fa-xmark cancelarProducto"id="${producto.id}"></i></div>
+                
+            </div>
+        `
 
         precioTotal += producto.precioFinal;
+
     })
+
     const datosCuenta = document.querySelector('.datosCuenta');
     datosCuenta.innerHTML = `
     <div class="datosCuenta-usuario"><p>usuario: ${cuentaEstandar.nombre}</p>
     <p>dirección: ${cuentaEstandar.direccion}</p>
     <p>telefono: ${cuentaEstandar.telefono}</p><br></div>
+    <div class="mostrarProductos">
 
-    ${mostrarProductos}
-    TOTAL: $${precioTotal}
+            <div class="mostrarProductos-titulo">
+                    <div>PRODUCTO</div>
+                    <div>CANTIDAD</div>
+                    <div>SUBTOTAL</div>
+                    <div></div>
+                </div>
+                ${mostrarProductos}
+        </table>
+    </div>
+    <div class="alinearDerecha">TOTAL: $${precioTotal}</div>
     
     `
+
 };
-
-
 
 
 // CREANDO LOS OBJETOS
@@ -286,6 +332,11 @@ productos.push(producto73);
 
 // -------------- PASOS ------------
 
+
+// 0) CARGO LOS PRODUCTOS DEL CARRITO 
+
+cuentaEstandar.productos = JSON.parse(localStorage.getItem("producto"));
+
 // 1) AGREGAR LOS PRODUCTOS BUSCADOS AL HTML
 
 
@@ -331,7 +382,7 @@ modalDelProducto.addEventListener("click", (e) => {
     modal.classList.add('modal--show');
     const datosProducto = document.querySelector('.datosProducto');
     datosProducto.innerHTML = `
-        <h3 id="productoSeleccionado">${productoSeleccionado.nombre}<h3>
+        <h3 id="productoSeleccionado">${productoSeleccionado.nombre}</h3>
         <h4>Ingrese la cantidad de ${productoSeleccionado.nombre} que desea comprar (x 100g): <br></h4>
         <input type="number" required class="cantidad" id="cantidad"> 
         <h3>Precio total: </h3>
@@ -359,8 +410,10 @@ carritoDeCompras.addEventListener("click", (e) => {
     e.preventDefault();
     let cantidad = parseInt(document.querySelector('.cantidad').value);
     let resultado = parseInt(document.querySelector('.precio').innerText);
-    let productoSeleccionado = document.getElementById('productoSeleccionado').innerText;
-    cuentaEstandar.agregarAlCarrito(productoSeleccionado, cantidad, resultado);
+    let nombreProductoSeleccionado = document.getElementById('productoSeleccionado').innerText;
+    let productoSeleccionado = productos.find(producto => producto.nombre == nombreProductoSeleccionado);
+    let idProductoSeleccionado = productoSeleccionado.id;
+    cuentaEstandar.agregarAlCarrito(idProductoSeleccionado, nombreProductoSeleccionado, cantidad, resultado);
     modal.classList.remove('modal--show');
 
 })
@@ -393,7 +446,7 @@ shopping.addEventListener("click", (e) => {
 
     // recorro los productos
 
-    
+
     modalCarrito.classList.add('modal--show');
     abrirModalCarrito(cuentaEstandar);
 
@@ -404,7 +457,20 @@ closeModalCarrito.addEventListener('click', (e) => {
     modalCarrito.classList.remove('modal--show');
 })
 
-// 5) CATEGORIAS
+// 6) ELIMINAR PRODUCTO DEL CARRITO
+
+const eliminarProducto = document.querySelector('.modalCarrito');
+eliminarProducto.onclick = (e) => {
+    if (e.target.className == "fa-solid fa-xmark cancelarProducto") {
+        cuentaEstandar.eliminarProductoCarrito(e.target.id);
+        abrirModalCarrito(cuentaEstandar);
+
+    }
+}
+
+
+
+// 6) CATEGORIAS
 const categorias__lista = document.querySelector('.categorias__lista');
 
 categorias__lista.onclick = (e) => {
@@ -426,8 +492,5 @@ categorias__lista.onclick = (e) => {
 
 // REGISTRAR AL USUARIO AL INGRESAR AL SITIO
 
-// Hacer un popUp para el carrito 
-// Dar la opcion de eliminar un producto del carrito
 // Mostrar la cantidad de items agregados al carrito en el header
 // En el total del carrito, podria sumarle el precio por delivery (ej. partir con un costo de $150)
-// Crear botones que me filtre por categoria
