@@ -9,16 +9,23 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script">
     <link href="estilo.css" rel="stylesheet">
     <title>Llanten Almacen</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script defer src="miarchivo.js"></script>
+
     <!-- el defer me permite ejecutar el js al ultimo, como si estuviera al fondo del body -->
 
 </head>
 
-<body>
+<body class="body-almacen">
     <header>
         <div class="header-left">
             <div>
-                <h2>Inicio</h2>
+                <img class="header-logo" src="logo.png" alt="logo">
+            </div>
+            <div>
+                <a href="home.html"><h2>Inicio</h2></a>
             </div>
             <div>
                 <h2>Almacen</h2>
@@ -34,7 +41,7 @@
     </header>
     <main class="almacen__main">
 
-        <section>
+        <section class="categorias-container">
             <div class="categorias">
                 <div class="buscador-container">
                     <form id="formulario">
@@ -58,10 +65,11 @@
                     <li class="categorias__item" id="almacenII">Almacén II</li>
                     <li class="categorias__item" id="suplementosYProbioticos">Suplementos y Probióticos</li>
                     <li class="categorias__item" id="cosmeticaNatural">Cosmética Natural</li>
+                    <li class="categorias__item" id="verTodos">Ver Todos</li>
                 </ul>
             </div>
         </section>
-        <section>
+        <section class="section-item">
             <div class="item-container">
             </div>
 

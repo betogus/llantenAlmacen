@@ -31,24 +31,50 @@ class Cuenta {
             cantidad: cantidadProducto,
             precioFinal: precioFinalProducto
         }
-        if (this.productos == null) {
-            this.productos = [];
-        }
+        this.productos == null ? this.productos = [] : this.productos;
         this.productos.push(producto);
         let productoEnLS = this.productos;
         localStorage.setItem("producto", JSON.stringify(productoEnLS));
+
+        let shopping = document.querySelector('.carrito');
+        shopping.innerHTML = `
+        <i class="fa-solid fa-cart-shopping"></i><div class="contadorDeProductos">${this.productos.length}</div>
+        `
+        
+        // Sweet Alert
+        Swal.fire({
+            title: 'Felicitaciones!',
+            text: `El producto ${nombreProducto} ha sido añadido al carrito`,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000
+        })
+
+        //Toastify
+        Toastify({
+            text: `Se agregó ${nombreProducto} al carrito`,
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+          }).showToast();
     }
 
 
-    eliminarProductoCarrito(id) {
-        let buscarProducto = productos.find(producto => producto.id == id);
+    eliminarProductoCarrito(idProducto) {
+        let buscarProducto = productos.find(({
+            id
+        }) => id == idProducto);
         for (let i = 0; i < this.productos.length; i++) {
-            if (this.productos[i].id == buscarProducto.id) {
-                this.productos.splice(i, 1);
-            }
+            this.productos[i].id == buscarProducto.id && this.productos.splice(i, 1);
         }
         let productoEnLS = this.productos;
-        localStorage.setItem("producto", JSON.stringify(productoEnLS)); 
+        localStorage.setItem("producto", JSON.stringify(productoEnLS));
     }
 };
 
@@ -71,10 +97,11 @@ class Producto {
 // Funciones 
 
 
-function obtenerPrecio(producto) {
+function obtenerPrecio({
+    precio100gr,
+    precioKg
+}) {
     let cantidad = document.querySelector('.cantidad').value;
-    let precio100gr = producto.precio100gr;
-    let precioKg = producto.precioKg;
     let cantidadEnKg = 0;
     let cantidadEn100g = 0;
     cantidadEnKg = Math.floor(cantidad / 10)
@@ -116,7 +143,11 @@ function productosAMostrar(listadoDeProductos, productos) {
 }
 
 function productoABuscarPorCategoria(categoria, listadoDeProductos) {
-    let resultadoDeBusqueda = productos.filter((producto => producto.categoria == categoria));
+    
+        let resultadoDeBusqueda = productos.filter((producto => producto.categoria == categoria));
+        if (categoria == "verTodos") {
+            resultadoDeBusqueda = productos;
+        }
     productosAMostrar(listadoDeProductos, resultadoDeBusqueda);
 }
 
@@ -411,7 +442,9 @@ carritoDeCompras.addEventListener("click", (e) => {
     let cantidad = parseInt(document.querySelector('.cantidad').value);
     let resultado = parseInt(document.querySelector('.precio').innerText);
     let nombreProductoSeleccionado = document.getElementById('productoSeleccionado').innerText;
-    let productoSeleccionado = productos.find(producto => producto.nombre == nombreProductoSeleccionado);
+    let productoSeleccionado = productos.find(({
+        nombre
+    }) => nombre == nombreProductoSeleccionado);
     let idProductoSeleccionado = productoSeleccionado.id;
     cuentaEstandar.agregarAlCarrito(idProductoSeleccionado, nombreProductoSeleccionado, cantidad, resultado);
     modal.classList.remove('modal--show');
@@ -488,9 +521,12 @@ categorias__lista.onclick = (e) => {
     e.target.style.background = "rgba(222, 234, 234, 0.80)";
 }
 
+// 7) MOSTRAR LA CANTIDAD DE PRODUCTOS QUE HAY EN EL CARRITO DENTRO DEL ICONO DE CARRITO
 
+shopping.innerHTML = `<i class="fa-solid fa-cart-shopping"></i><div class="contadorDeProductos">${cuentaEstandar.productos.length}</div>`
 
 // REGISTRAR AL USUARIO AL INGRESAR AL SITIO
 
-// Mostrar la cantidad de items agregados al carrito en el header
+
+// Dar la opcion de ordenar los productos del carrito por fecha de agregado, alfabeticamente, precio, etc.
 // En el total del carrito, podria sumarle el precio por delivery (ej. partir con un costo de $150)
