@@ -17,21 +17,15 @@ class Cuenta {
         this.telefono = telefono;
         this.productos = [];
     }
-    cargarProductos(listaDeProductos) {
 
-        this.productos = listaDeProductos;
-
-    }
-
-    agregarAlCarrito(idProducto, nombreProducto, cantidadProducto, precioFinalProducto) {
+    agregarAlCarrito(productoSeleccionado, cantidadProducto, precioFinalProducto) {
 
         let producto = {
-            id: idProducto,
-            nombre: nombreProducto,
+            ...productoSeleccionado,
             cantidad: cantidadProducto,
             precioFinal: precioFinalProducto
         }
-        this.productos == null ? this.productos = [] : this.productos;
+        this.productos || [];
         this.productos.push(producto);
         let productoEnLS = this.productos;
         localStorage.setItem("producto", JSON.stringify(productoEnLS));
@@ -44,7 +38,7 @@ class Cuenta {
         // Sweet Alert
         Swal.fire({
             title: 'Felicitaciones!',
-            text: `El producto ${nombreProducto} ha sido añadido al carrito`,
+            text: `El producto ${productoSeleccionado.nombre} ha sido añadido al carrito`,
             icon: 'success',
             showConfirmButton: false,
             timer: 3000
@@ -52,7 +46,7 @@ class Cuenta {
 
         //Toastify
         Toastify({
-            text: `Se agregó ${nombreProducto} al carrito`,
+            text: `Se agregó ${productoSeleccionado.nombre} al carrito`,
             duration: 3000,
             newWindow: true,
             close: true,
@@ -144,10 +138,8 @@ function productosAMostrar(listadoDeProductos, productos) {
 
 function productoABuscarPorCategoria(categoria, listadoDeProductos) {
     
-        let resultadoDeBusqueda = productos.filter((producto => producto.categoria == categoria));
-        if (categoria == "verTodos") {
-            resultadoDeBusqueda = productos;
-        }
+        let resultadoDeBusqueda;
+        categoria == "verTodos" ?  resultadoDeBusqueda = productos : resultadoDeBusqueda = productos.filter((producto => producto.categoria == categoria));
     productosAMostrar(listadoDeProductos, resultadoDeBusqueda);
 }
 
@@ -445,8 +437,7 @@ carritoDeCompras.addEventListener("click", (e) => {
     let productoSeleccionado = productos.find(({
         nombre
     }) => nombre == nombreProductoSeleccionado);
-    let idProductoSeleccionado = productoSeleccionado.id;
-    cuentaEstandar.agregarAlCarrito(idProductoSeleccionado, nombreProductoSeleccionado, cantidad, resultado);
+    cuentaEstandar.agregarAlCarrito(productoSeleccionado, cantidad, resultado);
     modal.classList.remove('modal--show');
 
 })
