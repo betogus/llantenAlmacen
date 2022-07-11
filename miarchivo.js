@@ -25,7 +25,6 @@ class Cuenta {
             cantidad: cantidadProducto,
             precioFinal: precioFinalProducto
         }
-        this.productos || [];
         this.productos.push(producto);
         let productoEnLS = this.productos;
         localStorage.setItem("producto", JSON.stringify(productoEnLS));
@@ -34,7 +33,7 @@ class Cuenta {
         shopping.innerHTML = `
         <i class="fa-solid fa-cart-shopping"></i><div class="contadorDeProductos">${this.productos.length}</div>
         `
-        
+
         // Sweet Alert
         Swal.fire({
             title: 'Felicitaciones!',
@@ -54,9 +53,9 @@ class Cuenta {
             position: "right", // `left`, `center` or `right`
             stopOnFocus: true, // Prevents dismissing of toast on hover
             style: {
-              background: "linear-gradient(to right, #00b09b, #96c93d)",
+                background: "linear-gradient(to right, #fbb467, #f7d096)",
             },
-          }).showToast();
+        }).showToast();
     }
 
 
@@ -137,9 +136,9 @@ function productosAMostrar(listadoDeProductos, productos) {
 }
 
 function productoABuscarPorCategoria(categoria, listadoDeProductos) {
-    
-        let resultadoDeBusqueda;
-        categoria == "verTodos" ?  resultadoDeBusqueda = productos : resultadoDeBusqueda = productos.filter((producto => producto.categoria == categoria));
+
+    let resultadoDeBusqueda;
+    categoria == "verTodos" ? resultadoDeBusqueda = productos : resultadoDeBusqueda = productos.filter((producto => producto.categoria == categoria));
     productosAMostrar(listadoDeProductos, resultadoDeBusqueda);
 }
 
@@ -358,7 +357,7 @@ productos.push(producto73);
 
 // 0) CARGO LOS PRODUCTOS DEL CARRITO 
 
-cuentaEstandar.productos = JSON.parse(localStorage.getItem("producto"));
+cuentaEstandar.productos = JSON.parse(localStorage.getItem("producto")) || [];
 
 // 1) AGREGAR LOS PRODUCTOS BUSCADOS AL HTML
 
@@ -398,32 +397,35 @@ const closeModal = document.querySelector('.modal__close');
 const modalDelProducto = document.querySelector('.item-container'); //Al acceder al contenedor y hacer click sobre un item, el e.target es dicho item
 modalDelProducto.addEventListener("click", (e) => {
     e.preventDefault();
-    let idSeleccionado = e.target.id;
-    let productoSeleccionado = productos.find(producto => producto.id == idSeleccionado);
+    if (e.target.className == "item-rec") {
+        let idSeleccionado = e.target.id;
+        let productoSeleccionado = productos.find(producto => producto.id == idSeleccionado);
 
-    //abrimos el modal
-    modal.classList.add('modal--show');
-    const datosProducto = document.querySelector('.datosProducto');
-    datosProducto.innerHTML = `
-        <h3 id="productoSeleccionado">${productoSeleccionado.nombre}</h3>
-        <h4>Ingrese la cantidad de ${productoSeleccionado.nombre} que desea comprar (x 100g): <br></h4>
-        <input type="number" required class="cantidad" id="cantidad"> 
-        <h3>Precio total: </h3>
-        <div class="precio"></div>
-        <h3>Ingrese algún comentario: </h3>
-        <textarea rows="6" cols="60"></textarea>
-        `
-    // el input number no me toma el precio cuando pongo la cantidad con las flechitas.
-    // aparte debo designar la cantidad maxima de caracteres que puede ingresar el usuario
-    // Obtenemos el precio
-    const cantidad = document.querySelector('.cantidad').value;
-    const contenedorCantidad = document.querySelector('.cantidad');
-    const precio = document.querySelector('.precio');
-    contenedorCantidad.addEventListener('keyup', (e) => {
-        e.preventDefault();
-        let resultado = obtenerPrecio(productoSeleccionado);
-        precio.innerText = resultado;
-    });
+        //abrimos el modal
+        modal.classList.add('modal--show');
+        const datosProducto = document.querySelector('.datosProducto');
+        datosProducto.innerHTML = `
+            <h3 id="productoSeleccionado">${productoSeleccionado.nombre}</h3>
+            <h4>Ingrese la cantidad de ${productoSeleccionado.nombre} que desea comprar (x 100g): <br></h4>
+            <input type="number" required class="cantidad" id="cantidad"> 
+            <h3>Precio total: </h3>
+            <div class="precio"></div>
+            <h3>Ingrese algún comentario: </h3>
+            <textarea rows="6" cols="60"></textarea>
+            `
+        // el input number no me toma el precio cuando pongo la cantidad con las flechitas.
+        // aparte debo designar la cantidad maxima de caracteres que puede ingresar el usuario
+        // Obtenemos el precio
+        const cantidad = document.querySelector('.cantidad').value;
+        const contenedorCantidad = document.querySelector('.cantidad');
+        const precio = document.querySelector('.precio');
+        contenedorCantidad.addEventListener('keyup', (e) => {
+            e.preventDefault();
+            let resultado = obtenerPrecio(productoSeleccionado);
+            precio.innerText = resultado;
+        });
+    }
+
 
 })
 
@@ -521,3 +523,8 @@ shopping.innerHTML = `<i class="fa-solid fa-cart-shopping"></i><div class="conta
 
 // Dar la opcion de ordenar los productos del carrito por fecha de agregado, alfabeticamente, precio, etc.
 // En el total del carrito, podria sumarle el precio por delivery (ej. partir con un costo de $150)
+
+
+
+
+

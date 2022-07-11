@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "swiper": "^8.3.0",
+    "vanilla-tilt": "^1.7.2"
+  }
+}

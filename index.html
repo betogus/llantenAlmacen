@@ -10,25 +10,30 @@
     <link href="estilo.css" rel="stylesheet">
     <title>Llanten Almacen</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="swiper.min.css">
+    <link rel="stylesheet" href="swiper-bundle.min.css">
+    <link rel="stylesheet" href="swiper-bundle.js.map">
+
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+
+    <link rel="stylesheet" href="swiper.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script defer src="miarchivo.js"></script>
-
-    <!-- el defer me permite ejecutar el js al ultimo, como si estuviera al fondo del body -->
-
 </head>
 
-<body class="body-almacen">
+<body>
     <header>
         <div class="header-left">
             <div>
                 <img class="header-logo" src="logo.png" alt="logo">
             </div>
             <div>
-                <a href="home.html"><h2>Inicio</h2></a>
+                <h2>Inicio</h2>
             </div>
             <div>
-                <h2>Almacen</h2>
+                <h2><a href="almacen.html">Almacen</a></h2>
             </div>
             <div>
                 <h2>Contacto</h2>
@@ -39,72 +44,115 @@
         </div>
 
     </header>
-    <main class="almacen__main">
+    <main>
+        <section class="home-fondo"></section>
+        <section class="home-fotoPrincipal">
+            <h2 class="home-logo headline">Llantén Almacén</h2>
+            <h2 class="headline">¡Bienvenido a nuestra tienda online!</h2>
+        </section>
 
-        <section class="categorias-container">
-            <div class="categorias">
-                <div class="buscador-container">
-                    <form id="formulario">
-                        <i class="fa-solid fa-magnifying-glass"></i> <input type="text" value="" id="productoABuscar"
-                            size="40" placeholder="ingrese el nombre del producto que desea buscar" />
-                    </form>
+        <section class="seccion2">
+            <!-- Swiper -->
+            <div class="swiper tagline">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" style="background-image:url(instagram/cereales.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(instagram/prottorta.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(instagram/vegetanesa-berenjena.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(instagram/vegetanesa-garbanzo.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(instagram/vegetanesa-lentejas.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(instagram/vegetanesa-porotoNegro.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(instagram/vegetanesa-remolacha.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(instagram/vegetanesa.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(almacen2.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(almacen2.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(almacen2.jpg);"></div>
+                    <div class="swiper-slide" style="background-image:url(almacen2.jpg);"></div>
+
                 </div>
-                <h2>Categorías<br><br></h2>
-                <ul class="categorias__lista">
-                    <li class="categorias__item" id="legumbresYHarinas">Legumbres y Harinas</li>
-                    <li class="categorias__item" id="cereales">Cereales y +</li>
-                    <li class="categorias__item" id="frutosSecos">Frutos secos</li>
-                    <li class="categorias__item" id="sueltos">Sueltos</li>
-                    <li class="categorias__item" id="semillas">Semillas</li>
-                    <li class="categorias__item" id="heladera">Heladera</li>
-                    <li class="categorias__item" id="yuyitosEInfusiones">Yuyitos e Infusiones</li>
-                    <li class="categorias__item" id="mielesYEndulzantes">Mieles y Endulzantes</li>
-                    <li class="categorias__item" id="condimentosYSales">Condimentos y Sales</li>
-                    <li class="categorias__item" id="panesYGalletas">Panes y Galletas</li>
-                    <li class="categorias__item" id="sinTacc">Sin TACC</li>
-                    <li class="categorias__item" id="almacenII">Almacén II</li>
-                    <li class="categorias__item" id="suplementosYProbioticos">Suplementos y Probióticos</li>
-                    <li class="categorias__item" id="cosmeticaNatural">Cosmética Natural</li>
-                    <li class="categorias__item" id="verTodos">Ver Todos</li>
-                </ul>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+            <div class="home-seccion2-container tagline">
+                <h2>Entérate de todos nuestros productos</h2>
+                <div class="home-button"><a href="almacen.html">Ir al Almacén</a></div>
             </div>
         </section>
-        <section class="section-item">
-            <div class="item-container">
-            </div>
+        <section class="seccion3 headline">
+            <h2>Visita nuestro local</h2>
+        </section>
 
+        <section class="seccion4">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4078.7058905763556!2d-64.16284574273234!3d-31.411523239020056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432a2a65d5c6d9f%3A0x5dfec3ca32d81f21!2sLima%201672%2C%20X5004%20FQX%2C%20C%C3%B3rdoba!5e0!3m2!1sen!2sar!4v1657386427326!5m2!1sen!2sar"
+                width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+        <section class="modalCarrito">
+            <div class="modal__container">
+                <form>
+                    <div class="datosCuenta">
+
+                    </div>
+                    <div class="modal__buttons">
+                        <input type="submit" value="Confirmar compra" class="confirmarCompra">
+                        <div class="modal__close__button"><a href="#" class="modalCarrito__close">Cerrar</a></div>
+                    </div>
+                </form>
+            </div>
         </section>
     </main>
-
-
-    <section class="modal">
-        <div class="modal__container">
-            <form>
-                <div class="datosProducto">
-
-                </div>
-                <div class="modal__buttons">
-                    <input type="submit" value="Añadir al carrito" class="agregarAlCarrito">
-                    <div class="modal__close__button"><a href="#" class="modal__close">Cancelar</a></div>
-                </div>
-            </form>
+    <footer class="home-footer">
+        <h2 class="headline">Contáctanos</h2>
+        <div class="home-footer-flex tagline">
+            <div class="home-footer-logo">
+                <img src="logo.png" alt="logo">
+            </div>
+            <div class="home-footer-horarios">
+                <h2>Horarios:</h2>
+                <p>Lunes a viernes de 10 a 20hs</p>
+                <p>Sábados de 10 a 14hs</p>
+            </div>
+            <div class="home-footer-ubicacion">
+                <h2>Ubicación: </h2>
+                <p>Lima 1672, General Paz, Córdoba</p>
+                <p>ENVÍOS GRATIS</p>
+            </div>
+            <div class="home-footer-redes">
+                <h2>Nuestras redes: </h2>
+                <a href="https://www.instagram.com/llantenalmacen/" target="_blank"><i class="fa-brands fa-instagram">
+                        @llantenalmacén</i></a>
+                <a href="https://api.whatsapp.com/send?phone=543516425582&text=Hola!%20%E2%98%BA%EF%B8%8F"
+                    target="_blank"><i class="fa-brands fa-whatsapp"> +54 9 351 642-5582</i></a>
+            </div>
         </div>
-    </section>
+    </footer>
+    <script src="swiper-bundle.min.js"></script>
+    <script src="swiper-bundle.esm.js"></script>
 
-
-    <section class="modalCarrito">
-        <div class="modal__container">
-            <form>
-                <div class="datosCuenta">
-
-                </div>
-                <div class="modal__buttons">
-                    <input type="submit" value="Confirmar compra" class="confirmarCompra">
-                    <div class="modal__close__button"><a href="#" class="modalCarrito__close">Cerrar</a></div>
-                </div>
-            </form>
-        </div>
-    </section>
+    <script>
+        var swiper = new Swiper('.swiper', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            slidesPerGroup: 3,
+            loop: true,
+            loopFillGroupWithBlank: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+		ScrollReveal().reveal('.headline', {delay:300, duration: 2000, reset: true})
+		ScrollReveal().reveal('.tagline', { delay: 500, duration: 2000, reset: true })
+		ScrollReveal().reveal('.punchline', { delay: 800, duration: 2000, reset: true })
+	</script>
 </body>
-
-</html>
