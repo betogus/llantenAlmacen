@@ -20,8 +20,10 @@
     <link rel="stylesheet" href="swiper.css">
     <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script defer src="miarchivo.js"></script>
-</head>
+    <script defer src="index.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap">
+    </script>
 
 <body>
     <header>
@@ -103,6 +105,18 @@
                 </form>
             </div>
         </section>
+        <section class="modalUsuario modal--show">
+            <div class="modal__container">
+                <form>
+                    <h2 class="formulario-usuario-titulo">¡Regístrate!</h2>
+                    <div class="formulario-container">
+                        <input type="text" class="formulario-usuario" placeholder="Tu Nombre" required>
+                        <input type="mail" class="formulario-usuario" placeholder="Tu Mail" required>
+                        <p class="ubicacion formulario-ubicacion"><input type="button">Seleccionar mi ubicación</a></p>
+                        <div id="map"></div>
+                        <input type="submit" value="Registrarme" class="formulario-registrarme">Registrarme</submit>
+                    </div>
+                </form>
     </main>
     <footer class="home-footer">
         <h2 class="headline">Contáctanos</h2>
@@ -129,6 +143,7 @@
             </div>
         </div>
     </footer>
+
     <script src="swiper-bundle.min.js"></script>
     <script src="swiper-bundle.esm.js"></script>
 
@@ -151,8 +166,24 @@
     </script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script>
-		ScrollReveal().reveal('.headline', {delay:300, duration: 2000, reset: true})
-		ScrollReveal().reveal('.tagline', { delay: 500, duration: 2000, reset: true })
-		ScrollReveal().reveal('.punchline', { delay: 800, duration: 2000, reset: true })
-	</script>
+        ScrollReveal().reveal('.headline', {
+            delay: 300,
+            duration: 2000,
+            reset: true
+        })
+        ScrollReveal().reveal('.tagline', {
+            delay: 500,
+            duration: 2000,
+            reset: true
+        })
+        ScrollReveal().reveal('.punchline', {
+            delay: 800,
+            duration: 2000,
+            reset: true
+        })
+    </script>
+    <script>
+        
+       
+    </script>
 </body>

@@ -20,13 +20,23 @@ class Cuenta {
 
 
     agregarAlCarrito(productoSeleccionado, cantidadProducto, precioFinalProducto) {
-
-        let producto = {
-            ...productoSeleccionado,
-            cantidad: cantidadProducto,
-            precioFinal: precioFinalProducto
+        productoRepetido = this.productos.some((el) => el.id == productoSeleccionado.id)
+        for (let producto of this.productos){
+            if (producto.id == productoSeleccionado.id) {
+                producto.cantidad += cantidad;
+              
+                producto.precioFinal = obtenerPrecio(producto, producto.cantidad); 
+            }
+        } 
+        if (productoRepetido == false) {
+            let producto = {
+                ...productoSeleccionado,
+                cantidad: cantidadProducto,
+                precioFinal: precioFinalProducto
+            }
+            this.productos.push(producto);
         }
-        this.productos.push(producto);
+        
         let productoEnLS = this.productos;
         localStorage.setItem("producto", JSON.stringify(productoEnLS));
 
@@ -69,12 +79,10 @@ class Cuenta {
         }
         let productoEnLS = this.productos;
         localStorage.setItem("producto", JSON.stringify(productoEnLS));
+        DOMshopping.innerHTML = `<i class="fa-solid fa-cart-shopping"></i><div class="contadorDeProductos">${cuentaEstandar.productos.length}</div>`
+
     }
 };
-
-
-
-
 
 /* class Producto {
     constructor(id, nombre, precio100gr, precioKg, hayStock, categoria) {
@@ -94,12 +102,11 @@ class Cuenta {
 function obtenerPrecio({
     precio100gr,
     precioKg
-}) {
-    const cantidad = parseInt(document.querySelector('.cantidad').innerHTML);
+}, cantidadProducto) {
     let cantidadEnKg = 0;
     let cantidadEn100g = 0;
-    cantidadEnKg = Math.floor(cantidad / 10)
-    cantidadEn100g = Math.floor(cantidad) - cantidadEnKg * 10;
+    cantidadEnKg = Math.floor(cantidadProducto / 10)
+    cantidadEn100g = Math.floor(cantidadProducto) - cantidadEnKg * 10;
     let precio = cantidadEnKg * precioKg + cantidadEn100g * precio100gr;
     return precio;
 }
@@ -169,8 +176,8 @@ function abrirModalCarrito(cuentaEstandar) {
         precioTotal += producto.precioFinal;
     })
 
-    const datosCuenta = document.querySelector('.datosCuenta');
-    datosCuenta.innerHTML = `
+    const DOMdatosCuenta = document.querySelector('.datosCuenta');
+    DOMdatosCuenta.innerHTML = `
     <div class="datosCuenta-usuario"><p>usuario: ${cuentaEstandar.nombre}</p>
     <p>dirección: ${cuentaEstandar.direccion}</p>
     <p>telefono: ${cuentaEstandar.telefono}</p><br></div>
@@ -205,7 +212,7 @@ const traerDatosBaseDeDatos = () => {
         .then((resp) => resp.json())
         .then((data) => {
             productos = data
-            productosAMostrar(itemContainer, productos)
+            productosAMostrar(DOMitemContainer, productos)
         });
 }
 
@@ -220,15 +227,15 @@ cuentaEstandar.productos = JSON.parse(localStorage.getItem("producto")) || [];
 
 // 1) AGREGAR LOS PRODUCTOS BUSCADOS AL HTML
 
-let itemContainer = document.querySelector('.item-container');
+const DOMitemContainer = document.querySelector('.item-container');
 
 
 // busco los productos que ingresa el usuario
 
-const productoABuscar = document.getElementById("productoABuscar");
-productoABuscar.addEventListener('keyup', (e) => {
+const DOMproductoABuscar = document.getElementById("productoABuscar");
+DOMproductoABuscar.addEventListener('keyup', (e) => {
     // Vuelvo al color original a todos los items de categorias
-    let hijos = categorias__lista.children;
+    let hijos = DOMcategorias__lista.children;
     for (let hijo of hijos) {
         hijo.style.background = "#fff";
     }
@@ -236,7 +243,7 @@ productoABuscar.addEventListener('keyup', (e) => {
     let inputEvent = e.path[0].value; //accedo al texto que escribe el usuario
     let resultadoDeBusqueda = productos.filter((producto) => producto.nombre.includes(inputEvent.toUpperCase()));
 
-    productosAMostrar(itemContainer, resultadoDeBusqueda);
+    productosAMostrar(DOMitemContainer, resultadoDeBusqueda);
 
 })
 
@@ -244,23 +251,25 @@ productoABuscar.addEventListener('keyup', (e) => {
 
 // 2) ABRIR Y CERRAR MODAL
 
-const modal = document.querySelector('.modal');
-const closeModal = document.querySelector('.modal__close');
+const DOMmodal = document.querySelector('.modal');
+const DOMcloseModal = document.querySelector('.modal__close');
 
 // al hacer click en un item, se abre el modal
-
-const modalDelProducto = document.querySelector('.item-container'); //Al acceder al contenedor y hacer click sobre un item, el e.target es dicho item
-modalDelProducto.addEventListener("click", (e) => {
+let cantidad;
+let resultado;
+let productoSeleccionado;
+const DOMmodalDelProducto = document.querySelector('.item-container'); //Al acceder al contenedor y hacer click sobre un item, el e.target es dicho item
+DOMmodalDelProducto.addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.className == "item-rec") {
         let idSeleccionado = e.target.id;
-        let productoSeleccionado = productos.find(producto => producto.id == idSeleccionado);
+        productoSeleccionado = productos.find(producto => producto.id == idSeleccionado);
 
         //abrimos el modal
-        modal.classList.add('modal--show');
-        const datosProducto = document.querySelector('.datosProducto');
-        let cantidad = 0;
-        datosProducto.innerHTML = `
+        cantidad = 0;
+        DOMmodal.classList.add('modal--show');
+        const DOMdatosProducto = document.querySelector('.datosProducto');
+        DOMdatosProducto.innerHTML = `
             <h3 id="productoSeleccionado">${productoSeleccionado.nombre}</h3>
             <h4>Precio (x100g): $${productoSeleccionado.precio100gr}</h4>
             <h4>Precio (x1Kg): $${productoSeleccionado.precioKg}</h4><br>
@@ -277,24 +286,24 @@ modalDelProducto.addEventListener("click", (e) => {
             `
 
         // Sumamos o restamos las unidades del producto que queremos comprar
-        const contenedorCantidad = document.querySelector('.cantidad');
-        const precio = document.querySelector('.precio');
-        const resta = document.querySelector('.resta');
+        const DOMcontenedorCantidad = document.querySelector('.cantidad');
+        const DOMprecio = document.querySelector('.precio');
+        const DOMresta = document.querySelector('.resta');
 
-        resta.onclick = () => {
+        DOMresta.onclick = () => {
             cantidad = cantidad > 0 ? cantidad - 1 : 0;
-            contenedorCantidad.innerHTML = cantidad;
-            let resultado = obtenerPrecio(productoSeleccionado);
-            precio.innerText = resultado;
+            DOMcontenedorCantidad.innerHTML = cantidad;
+            resultado = obtenerPrecio(productoSeleccionado, cantidad);
+            DOMprecio.innerText = resultado;
         }
 
-        const suma = document.querySelector('.suma');
+        const DOMsuma = document.querySelector('.suma');
 
-        suma.onclick = () => {
+        DOMsuma.onclick = () => {
             cantidad += 1;
-            contenedorCantidad.innerHTML = cantidad;
-            let resultado = obtenerPrecio(productoSeleccionado);
-            precio.innerText = resultado;
+            DOMcontenedorCantidad.innerHTML = cantidad;
+            resultado = obtenerPrecio(productoSeleccionado, cantidad);
+            DOMprecio.innerText = resultado;
         }
 
 
@@ -303,26 +312,22 @@ modalDelProducto.addEventListener("click", (e) => {
 
 })
 // 3) AGREGAR AL CARRITO 
-const carritoDeCompras = document.querySelector('.agregarAlCarrito');
+const DOMcarritoDeCompras = document.querySelector('.agregarAlCarrito');
 const laCantidadEsCero = () => {
     return new Promise((resolve, reject) => {
-        let promesa = document.querySelector('.precio').innerText != "" &&
+        let DOMpromesa = document.querySelector('.precio').innerText != "" &&
             document.querySelector('.precio').innerText != '0' ?
             resolve("añadir al carrito") :
             reject("no hay producto que añadir");
     })
 }
-carritoDeCompras.addEventListener("click", (e) => {
+let productoRepetido
+DOMcarritoDeCompras.addEventListener("click", (e) => {
     e.preventDefault();
     laCantidadEsCero().then((resolve) => {
-        let cantidad = parseInt(document.querySelector('.cantidad').innerText);
-        let resultado = parseInt(document.querySelector('.precio').innerText);
-        let nombreProductoSeleccionado = document.getElementById('productoSeleccionado').innerText;
-        let productoSeleccionado = productos.find(({
-            nombre
-        }) => nombre == nombreProductoSeleccionado);
+
         cuentaEstandar.agregarAlCarrito(productoSeleccionado, cantidad, resultado);
-        modal.classList.remove('modal--show');
+        DOMmodal.classList.remove('modal--show');
     })
 
 })
@@ -332,17 +337,17 @@ carritoDeCompras.addEventListener("click", (e) => {
 
 // al hacer click en cancelar, se cierra el modal
 
-closeModal.addEventListener('click', (e) => {
+DOMcloseModal.addEventListener('click', (e) => {
     e.preventDefault();
-    modal.classList.remove('modal--show');
+    DOMmodal.classList.remove('modal--show');
 })
 
 
 // 4) MOSTRAR CARRITO 
 
-const shopping = document.querySelector('.carrito');
-const modalCarrito = document.querySelector('.modalCarrito');
-shopping.addEventListener("click", (e) => {
+const DOMshopping = document.querySelector('.carrito');
+const DOMmodalCarrito = document.querySelector('.modalCarrito');
+DOMshopping.addEventListener("click", (e) => {
 
     // ordeno los productos alfabeticamente
     cuentaEstandar.productos.sort((a, b) => {
@@ -355,23 +360,20 @@ shopping.addEventListener("click", (e) => {
         return 0;
     });
 
-    // recorro los productos
-
-
-    modalCarrito.classList.add('modal--show');
+    DOMmodalCarrito.classList.add('modal--show');
     abrirModalCarrito(cuentaEstandar);
 
 })
-const closeModalCarrito = document.querySelector('.modalCarrito__close');
-closeModalCarrito.addEventListener('click', (e) => {
+const DOMcloseModalCarrito = document.querySelector('.modalCarrito__close');
+DOMcloseModalCarrito.addEventListener('click', (e) => {
     e.preventDefault();
-    modalCarrito.classList.remove('modal--show');
+    DOMmodalCarrito.classList.remove('modal--show');
 })
 
 // 6) ELIMINAR PRODUCTO DEL CARRITO
 
-const eliminarProducto = document.querySelector('.modalCarrito');
-eliminarProducto.onclick = (e) => {
+const DOMeliminarProducto = document.querySelector('.modalCarrito');
+DOMeliminarProducto.onclick = (e) => {
     if (e.target.className == "fa-solid fa-xmark cancelarProducto") {
         cuentaEstandar.eliminarProductoCarrito(e.target.id);
         abrirModalCarrito(cuentaEstandar);
@@ -382,18 +384,17 @@ eliminarProducto.onclick = (e) => {
 
 
 // 6) CATEGORIAS
-const categorias__lista = document.querySelector('.categorias__lista');
+const DOMcategorias__lista = document.querySelector('.categorias__lista');
 
-categorias__lista.onclick = (e) => {
+DOMcategorias__lista.onclick = (e) => {
 
     // Volvemos todos los items de la categoria al color original
-    let padre = categorias__lista;
-    let hijos = categorias__lista.children;
+    let hijos = DOMcategorias__lista.children;
     for (let hijo of hijos) {
         hijo.style.background = "#fff";
     }
 
-    productoABuscarPorCategoria(e.target.id, itemContainer);
+    productoABuscarPorCategoria(e.target.id, DOMitemContainer);
 
     //coloreamos al item clickeado
     e.target.style.background = "rgba(222, 234, 234, 0.80)";
@@ -401,7 +402,7 @@ categorias__lista.onclick = (e) => {
 
 // 7) MOSTRAR LA CANTIDAD DE PRODUCTOS QUE HAY EN EL CARRITO DENTRO DEL ICONO DE CARRITO
 
-shopping.innerHTML = `<i class="fa-solid fa-cart-shopping"></i><div class="contadorDeProductos">${cuentaEstandar.productos.length}</div>`
+DOMshopping.innerHTML = `<i class="fa-solid fa-cart-shopping"></i><div class="contadorDeProductos">${cuentaEstandar.productos.length}</div>`
 
 // REGISTRAR AL USUARIO AL INGRESAR AL SITIO
 

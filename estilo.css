@@ -120,7 +120,7 @@ footer {
     color: rgb(102, 117, 98);
 }
 
-.modal, .modalCarrito {
+.modal, .modalCarrito, .modalUsuario {
     position: fixed;
     top: 0;
     right: 0;
@@ -131,7 +131,7 @@ footer {
     opacity: 0;
     pointer-events: none;
     transition: opacity .6s;
-
+    z-index: 10;
 }
 
 .modal--show {
@@ -160,6 +160,7 @@ footer {
     padding-top: 10px;
     font-size: 15px;
     transition: background .3s;
+    text-align: center;
 }
 
 .modal__close__button:hover, .modal__buy:hover {
@@ -294,6 +295,7 @@ table {
     left: 20px;
     border:#fff 2px solid;
     padding-top: 2px;
+    text-align: center;
 }
 
 .header-logo {
@@ -472,3 +474,50 @@ table {
     margin: auto;
 }
 
+
+#geomap{
+    width: 100%;
+    height: 400px;
+}
+#map {
+	height: 500px;
+	width: 100%;
+}
+
+.formulario-usuario-titulo {
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.formulario-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formulario-usuario, .formulario-ubicacion, .formulario-registrarme  {
+    width: 70%;
+    height: 50px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.formulario-ubicacion, .formulario-registrarme {
+    background: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    cursor: pointer;
+    color: white;
+}
+
+.formulario-ubicacion input {
+    color: white;
+       
+}
+
+#map {
+    max-height: 250px;
+}
