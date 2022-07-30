@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="swiper.css">
     <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script defer src="index.js"></script>
+    <script defer src="codigoEnComun.js"></script>
+
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap">
     </script>
@@ -41,10 +42,14 @@
                 <h2>Contacto</h2>
             </div>
         </div>
-        <div class="carrito">
-            <i class="fa-solid fa-cart-shopping"></i>
+        <div class="header-right">
+            <div class="usuario">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="carrito">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
         </div>
-
     </header>
     <main>
         <section class="home-fondo"></section>
@@ -105,18 +110,22 @@
                 </form>
             </div>
         </section>
-        <section class="modalUsuario modal--show">
+        <section class="modalUsuario">
             <div class="modal__container">
                 <form>
                     <h2 class="formulario-usuario-titulo">¡Regístrate!</h2>
                     <div class="formulario-container">
-                        <input type="text" class="formulario-usuario" placeholder="Tu Nombre" required>
-                        <input type="mail" class="formulario-usuario" placeholder="Tu Mail" required>
-                        <p class="ubicacion formulario-ubicacion"><input type="button">Seleccionar mi ubicación</a></p>
+                        <input type="text" class="formulario-usuario" id="nombre" placeholder="Tu Nombre" required>
+                        <input type="email" class="formulario-usuario" id="email" placeholder="Tu Mail" required><span
+                            id="emailOK"></span>
+                        <p class="ubicacion formulario-ubicacion">Seleccionar mi ubicación</p>
                         <div id="map"></div>
-                        <input type="submit" value="Registrarme" class="formulario-registrarme">Registrarme</submit>
+                        <button type="submit" value="Registrarme" class="formulario-registrarme">Registrarme</button>
+                        <span class="errorAlRegistrarse"></span>
                     </div>
                 </form>
+            </div>
+        </section>
     </main>
     <footer class="home-footer">
         <h2 class="headline">Contáctanos</h2>
@@ -183,7 +192,7 @@
         })
     </script>
     <script>
-        
-       
+
+
     </script>
 </body>

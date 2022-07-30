@@ -2,5 +2,28 @@
   "dependencies": {
     "swiper": "^8.3.0",
     "vanilla-tilt": "^1.7.2"
-  }
+  },
+  "devDependencies": {
+    "node-sass": "^7.0.1",
+    "nodemon": "^2.0.19"
+  },
+  "name": "llanten.almacen",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "node-sass --include-path scss estilo.scss estilo.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betogus/llantenAlmacen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/betogus/llantenAlmacen/issues"
+  },
+  "homepage": "https://github.com/betogus/llantenAlmacen#readme",
+  "description": ""
 }

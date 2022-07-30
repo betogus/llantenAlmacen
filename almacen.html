@@ -10,10 +10,16 @@
     <link href="estilo.css" rel="stylesheet">
     <title>Llanten Almacen</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script defer src="codigoEnComun.js"></script>
     <script defer src="miarchivo.js"></script>
-<!--     <script defer src="ecommerce.js"></script>
- -->    <!-- el defer me permite ejecutar el js al ultimo, como si estuviera al fondo del body -->
 
+
+    <!--     <script defer src="ecommerce.js"></script>
+ -->
+    <!-- el defer me permite ejecutar el js al ultimo, como si estuviera al fondo del body -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap">
+    </script>
 </head>
 
 <body class="body-almacen">
@@ -23,7 +29,9 @@
                 <img class="header-logo" src="logo.png" alt="logo">
             </div>
             <div>
-                <a href="index.html"><h2>Inicio</h2></a>
+                <a href="index.html">
+                    <h2>Inicio</h2>
+                </a>
             </div>
             <div>
                 <h2>Almacen</h2>
@@ -32,13 +40,29 @@
                 <h2>Contacto</h2>
             </div>
         </div>
-        <div class="carrito">
-            <i class="fa-solid fa-cart-shopping"></i>
+        <div class="header-right">
+            <div class="usuario">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="carrito">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
         </div>
 
     </header>
     <main class="almacen__main">
-
+        <section class="filter-container">
+            <div class="filtro1">
+                <a>Ordenar: </a>
+                <select title="ordenarPor" name="ordenarPor" id="ordenarPor">
+                    <option value="p">Predeterminado</option>
+                    <option value="az">Alfabéticamente (A-Z)</option>
+                    <option value="za">Alfabéticamente (Z-A)</option>
+                    <option value="PmM">Por Precio (menor a mayor)</option>
+                    <option value="PMm">Por Precio (mayor a menor)</option>
+                </select>
+            </div>
+        </section>
         <section class="categorias-container">
             <div class="categorias">
                 <div class="buscador-container">
@@ -70,7 +94,9 @@
         <section class="section-item">
             <div class="item-container">
             </div>
+            <div class="item-button-container">
 
+            </div>
         </section>
     </main>
 
@@ -103,6 +129,24 @@
             </form>
         </div>
     </section>
+
+    <section class="modalUsuario">
+        <div class="modal__container">
+            <form>
+                <h2 class="formulario-usuario-titulo">¡Regístrate!</h2>
+                <div class="formulario-container">
+                    <input type="text" class="formulario-usuario" id="nombre" placeholder="Tu Nombre" required>
+                    <input type="email" class="formulario-usuario" id="email" placeholder="Tu Mail" required><span
+                        id="emailOK"></span>
+                    <p class="ubicacion formulario-ubicacion">Seleccionar mi ubicación</p>
+                    <div id="map"></div>
+                    <button type="submit" value="Registrarme" class="formulario-registrarme">Registrarme</button>
+                    <span class="errorAlRegistrarse"></span>
+                </div>
+            </form>
+        </div>
+    </section>
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
