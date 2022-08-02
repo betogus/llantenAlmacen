@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap">
+</script>
+</head>
+<link href="estilo.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <section class="modalUsuario modal--show">
+        <div class="modal__container">
+            <form>
+                <h2>¡Regístrate!</h2>
+                <div>
+                    <input type="text" placeholder="Tu Nombre" required>
+                    <input type="mail" placeholder="Tu Mail" required>
+                    <p class="ubicacion" id="map"><a href="#">Mostrar mi ubicación</a></p>
+
+                </div>
+
+                <script>
+                    function geolocalizacion() {
+                        if (!"geolocation" in navigator) {
+                            return alert("Tu navegador no soporta el acceso a la ubicación. Intenta con otro");
+                        } else {
+                            let map;
+                            let mapOptions = {
+                                zoom: 15,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            };
+
+
+                            map = new google.maps.Map(document.querySelector("#map"), mapOptions);
+                            navigator.geolocation.getCurrentPosition(function (position) {
+                                let geolocate = new google.maps.LatLng(position.coords.latitude, position.coords
+                                    .longitude);
+
+                                let marker = new google.maps.Marker({
+                                    position: geolocate,
+                                    map: map
+                                });
+                                map.setCenter(geolocate);
+                            });
+
+                        }
+
+                    };
+
+
+                    geolocalizacion();
+                </script>
+
+</body>
+
+</html>
