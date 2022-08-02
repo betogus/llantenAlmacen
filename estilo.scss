@@ -402,7 +402,9 @@ table {
     }
 }
 
-
+.botonEncendido {
+    background-color: rgba(222, 234, 234, 0.80)!important;
+}
 
 
 main {
@@ -552,14 +554,13 @@ main {
 
 
 .noExisteElProducto {
-    position: relative;
-    left: 100px;
+    
     background: rgb(222, 234, 234);
     box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
     font-size: 15px;
     height: auto;
     padding: 5px;
-    width: auto;
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;

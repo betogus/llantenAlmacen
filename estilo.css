@@ -292,6 +292,9 @@ table {
         padding-top: 10px;
         cursor: pointer; }
 
+.botonEncendido {
+  background-color: rgba(222, 234, 234, 0.8) !important; }
+
 main .home-fotoPrincipal {
   background: rgba(0, 0, 0, 0.3) url("instagram/fotoPrincipal.jpg");
   background-size: cover;
@@ -400,14 +403,12 @@ main .seccion4 {
     justify-content: space-between; }
 
 .noExisteElProducto {
-  position: relative;
-  left: 100px;
   background: #deeaea;
   box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, 0.2);
   font-size: 15px;
   height: auto;
   padding: 5px;
-  width: auto;
+  width: 90%;
   display: flex;
   justify-content: center;
   align-items: center; }

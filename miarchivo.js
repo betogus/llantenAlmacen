@@ -11,6 +11,8 @@ DOMproductoABuscar.addEventListener('keyup', (e) => {
     for (let hijo of hijos) {
         hijo.style.background = "#fff";
     }
+    // Vuelvo a la pagina 1
+    numeroDeBoton = 1;
 
     let inputEvent = e.path[0].value; //accedo al texto que escribe el usuario
     let resultadoDeBusqueda = productos.filter((producto) => producto.nombre.includes(inputEvent.toUpperCase()));
@@ -127,6 +129,9 @@ DOMcategorias__lista.onclick = (e) => {
         hijo.style.background = "#fff";
     }
 
+    // Volvemos a la pagina 1 
+    numeroDeBoton = 1;
+
     productoABuscarPorCategoria(e.target.id, DOMitemContainer);
 
     //coloreamos al item clickeado
@@ -145,6 +150,10 @@ ordenarPor.onchange = () => {
         hijo.style.background = "#fff";
     }
     let productosOrdenados;
+
+// Volvemos a la pagina 1
+    numeroDeBoton = 1;
+
     if (ordenarPor.value == "az") {
         productosOrdenados = productos.sort((a, b) => {
             if (a.nombre > b.nombre) {
@@ -192,4 +201,14 @@ ordenarPor.onchange = () => {
 }
 
 
+// SELECCIONAR UNA PAGINA 
 
+document.querySelector(".item-button-container").onclick = (e) => {
+
+    if (e.target.id != numeroDeBoton) {
+        if (e.target.className == "item-button") {
+            numeroDeBoton = parseInt(e.target.id);
+            productosAMostrar(DOMitemContainer, productosAReducir)
+        }
+    }
+}

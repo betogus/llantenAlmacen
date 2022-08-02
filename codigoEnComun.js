@@ -135,52 +135,56 @@ const existeElProducto = (listadoDeProductos) => {
 }
 
 let numeroDeBoton;
-
+let productosAReducir;
 function productosAMostrar(listadoDeProductos, productosSeleccionados) {
     let diezProductos = [];
-    let productosAReducir = [];
-    if (numeroDeBoton == undefined || (numeroDeBoton-1)*10 > productosSeleccionados.length) {
+    productosAReducir = [];
+    if (numeroDeBoton == undefined || (numeroDeBoton - 1) * 10 > productosSeleccionados.length) {
         numeroDeBoton = 1;
-    }  
-    if (productosSeleccionados.length < (numeroDeBoton)*10) {
-        for (let i = (numeroDeBoton - 1)*10, j = 0; i < productosSeleccionados.length; i++, j++) {
+    }
+    if (productosSeleccionados.length < (numeroDeBoton) * 10) {
+        for (let i = (numeroDeBoton - 1) * 10, j = 0; i < productosSeleccionados.length; i++, j++) {
             diezProductos[j] = productosSeleccionados[i];
         }
     } else {
-        for (let i = (numeroDeBoton - 1)*10, j = 0; i < numeroDeBoton*10; i++, j++) {
+        for (let i = (numeroDeBoton - 1) * 10, j = 0; i < numeroDeBoton * 10; i++, j++) {
             diezProductos[j] = productosSeleccionados[i];
         }
     }
-    
+ 
     existeElProducto(productosSeleccionados).then((response) => {
         listadoDeProductos.innerHTML = diezProductos.reduce((listaProductos, producto) =>
             listaProductos +
             `<a><p class="item-rec" id="${producto.id}">${producto.nombre}</p></a>`, "");
+            colorearBoton(numeroDeBoton);
+
     }).catch((error) => {
         listadoDeProductos.innerHTML = `<div class="noExisteElProducto"><h1><i class="fa-solid fa-magnifying-glass"> </i> ${error}</h1></div>`
     })
-    
+
     let cantidadDeBotones = productosSeleccionados.length / 10;
     botonesDeProductos(cantidadDeBotones);
     productosAReducir = productosSeleccionados;
 
-    document.querySelector(".item-button-container").onclick = (e) => {
-        e.preventDefault();
-        if (e.target.className == "item-button") {
-            e.target.style.setProperty("background-color", "#6ab150")
-            console.log(e.target.style.backgroundColor);
 
-            numeroDeBoton = parseInt(e.target.id); 
-            productosAMostrar(DOMitemContainer, productosAReducir)
-        }
-        
+
+}
+
+
+
+function colorearBoton(idBotonSeleccionado) {
+    if (document.getElementById(idBotonSeleccionado).classList == "item-button") {
+        document.getElementById(idBotonSeleccionado).classList.add("botonEncendido");
     }
     
+
 }
+
 
 // creamos las paginas para ir navegando por el listado de productos. Se muestra un max de 10 productos por pagina
 
 function botonesDeProductos(cantidadDeBotones) {
+
     let boton;
     for (let i = 0; i < cantidadDeBotones; i++) {
         if (boton == undefined) {
@@ -189,10 +193,13 @@ function botonesDeProductos(cantidadDeBotones) {
             boton += `<div class="item-button" id="${i+1}">${[i+1]}</div>`;
         }
     }
-    if (document.querySelector(".item-button-container").innerHTML === undefined) {
-        document.querySelector(".item-button-container").innerHTML = "null";
-    }
+    // Si no hay productos, el boton dira undefined, por lo tanto borramos el contenido del .item-bitton-container
     document.querySelector(".item-button-container").innerHTML = boton
+    if (document.querySelector(".item-button-container").innerHTML == "undefined") {
+        document.querySelector(".item-button-container").innerHTML = "";
+    }
+    colorearBoton(numeroDeBoton)
+
 }
 
 function productoABuscarPorCategoria(categoria, listadoDeProductos) {
@@ -363,7 +370,7 @@ if (!usuariosLocales) {
 
 
         } else {
-            document.querySelector(".errorAlRegistrarse").innerHTML = "Su email o direccion no son válidas"
+            document.querySelector(".errorAlRegistrarse").innerHTML = "datos incorrectos"
 
         }
     }
